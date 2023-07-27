@@ -1,4 +1,4 @@
-# Section 0
+# Section 0. DevOps 이론
 
 ## 1강 - DevOps의 기본적 이해
 
@@ -22,10 +22,9 @@
   - Technical Skill: 프로그래밍, 운영체제, 서버관리, 오픈소스, 클라우드
 - IaC (Infrastructure as Code) : 코드로써의 인프라
   - Infrastructure as Code, 즉 코드로써의 인프라는 인프라를 이루는 서버, 미들웨어 그리고 서비스 등 인프라 구성요소들을 코드를 통해 구축하는 것.
-  - IaC는 코드로써의 장점 (작용이성, 재사용성, 유지보수)을 가진다.
-  - Terraform은 쉽고 사용자가 많은 IaC다.
+  - **IaC는 코드로써의 장점 (작성용이성, 재사용성, 유지보수)을 가진다.**
+  - `Terraform`은 쉽고 사용자가 많은 IaC다.
 
 ## 2강 보너스 - DevOps 로드맵
 
 - DevOps 로드맵을 보며 하나하나 코멘트 해주셨다. 직접 강의로 재확인할 것.
-
