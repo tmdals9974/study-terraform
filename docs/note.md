@@ -47,3 +47,12 @@
   - `import`: 이미 만들어진 자원을 테라폼 state 파일로 옮겨주는 명령어입니다.
   - `state`: 테라폼 state를 다루는 명령어입니다. 하위 명령어로 mv, push와 같은 명령어가 있습니다.
   - `destrody`: 생성된 자원들 state 파일 모두 삭제하는 명령어 입니다.
+
+## 4-1강 - AWS EC and SSH
+
+- AWS EC2에 대한 소개와 인스턴스 생성법 안내
+- VPC (Security Group)와 EC2에 대한 구조 간단 안내
+- SSH
+  - default tcp 22번 포트에 sshd라는 데몬 프로그램이 실행됨.
+  - ssh 연결 시 프로그램이 계속 실행되며 명령을 기다림.
+  - RSA 암호를 이용해 SSH 연결. ~/.ssh/authorized_keys에 공개키가 등록되어있음.
