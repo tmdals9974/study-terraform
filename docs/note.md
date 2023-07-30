@@ -56,3 +56,26 @@
   - default tcp 22번 포트에 sshd라는 데몬 프로그램이 실행됨.
   - ssh 연결 시 프로그램이 계속 실행되며 명령을 기다림.
   - RSA 암호를 이용해 SSH 연결. ~/.ssh/authorized_keys에 공개키가 등록되어있음.
+
+## 4-2강 - Zsh 및 Oh-my-zsh 설치
+
+- **EC2 OS : Amazon Linux**
+- Linux 기본 세팅
+  - sudo는 기본으로 세팅되어 있음.
+  - 기본 계정의 password 설정: `sudo passwd ec2-user`
+  - 기본 쉘 세팅
+    - 기본 쉘의 형태나 여러가지 기능들을 변경해주어 `편의성`을 높여줌 
+      - ex 1) 파일명의 중간부분만 입력하고 탭을 눌러도 자동완성됨. app-test 라는 파일이 있을때, test 를 입력하고 탭키를 눌러도 자동완성이 된다는 뜻!
+      - ex 2) 위아래 방향키로 이전에 입력했던 명령어 히스토리를 탐색하는 기능이 업그레이드됨. vi 까지 입력후 위아래로 움직이면 vi 를 기준으로 히스토리 탐색해줌.
+    - 테마를 통해 `가독성`을 높여줌
+    - **zsh 설치**
+      - 설치 명령어: `sudo yum install -y zsh`
+      - OS의 기본쉘 변경
+        - 기본쉘을 bash 에서 zsh로 변경
+        - 기본쉘 변경 명령어: chsh -s /bin/zsh
+        - 위 명령어 실행 중 오류가 발생했을 경우, 특정 os에서는 util-linux-user.x86_64를 설치해야함 (`sudo yum install -y util-linux-user.x86_64`)
+    - **oh-my-zsh 설치**
+      - 설치 명령어: `curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh`
+        - 명령어 실행중 깃 설치 메시지가 나오면 `sudo yum install -y git`으로 깃설치 먼저 진행
+        - 최초에 zsh 실행 될 때 `~/.zshrc` 파일에 있는 명령어를 가장 먼저 실행함. 해당 파일에서 각종 옵션 부여 가능.
+        - `github.com/ohmyzsh/ohmyzsh/wiki/Themes`에서 테마를 골라 적용할 수 있음. (`~/.zshrc` 파일의 `ZSH_THEME` 값 변경)
