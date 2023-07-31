@@ -79,3 +79,16 @@
         - 명령어 실행중 깃 설치 메시지가 나오면 `sudo yum install -y git`으로 깃설치 먼저 진행
         - 최초에 zsh 실행 될 때 `~/.zshrc` 파일에 있는 명령어를 가장 먼저 실행함. 해당 파일에서 각종 옵션 부여 가능.
         - `github.com/ohmyzsh/ohmyzsh/wiki/Themes`에서 테마를 골라 적용할 수 있음. (`~/.zshrc` 파일의 `ZSH_THEME` 값 변경)
+
+## 5-1강 - AWS CLI 및 Terraform 설치
+
+- AWS CLI v2 설치
+  - aws linux는 AWS CLI 기본 내장
+  - 설치(업데이트) 명령어 : 
+    1. `curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"`
+    2. `unzip awscliv2.zip`
+    3. `sudo ./aws/install`
+    4. `/usr/local/bin/aws --version` 으로 버전 확인 (`aws --version`은 exit 후 재연결 또는 쉘 재실행 후 확인 가능)
+    5. rm -rf aws, rm awscliv2.zip으로 설치파일 제거
+- Terraform 설치
+  - https://developer.hashicorp.com/terraform/downloads
