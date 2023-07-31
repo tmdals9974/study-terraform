@@ -113,34 +113,39 @@
       - ex 1) 코드를 통해 인프라 생성하여 backend에 저장했는데, 인프라를 콘솔을 통하여 변경하는 경우
       - ex 2) 작업자간 backend 싱크가 맞지 않은 경우
 - `CLI 실습 - terraform init, plan, apply`
-  1. vi `provider.tf`
-  ```t
-  provider "aws" {
-    region = "ap-southeast-2"
-  }
+
+  ```shell
+    vi provider.tf # init 전 provider 정보 생성. 파일내용은 아래와 같음
+    provider "aws" {
+      region = "ap-southeast-2"
+    }
+
+    terraform init # 이후 생성된 terraform 결과물 확인
+
+    vi s3.tf # 변경할 s3 정보 생성. 파일내용은 아래와 같음
+    resource "aws_s3_bucket" "study-terraform-s3" {
+      bucket = "study-terraform-s3-bucket"
+    }
+
+    terraform plan # 예상 실행 결과물 확인 (s3 생성)
+    aws s3 ls # 실제로 aws에 생성된 s3 버킷 확인
   ```
-  2. terraform init //생성된 terraform 결과물 확인
-  3. vi s3.tf
-  ```t
-  resource "aws_s3_bucket" "study-terraform-s3" {
-    bucket = "study-terraform-s3-bucket"
-  }
-  ```
-  4. terraform plan //예상 실행 결과물 확인
-  5. terraform apply
-  6. aws s3 ls //생성된 s3 버킷 확인
+
 - `CLI 실습 - import`
-  1. rm s3.tf //s3 코드 파일 삭제
-  2. terraform plan //apply시 s3 삭제 예정 확인
-  3. rm terraform.tfstate //테라폼 스테이트 파일 삭제
-  4. terraform plan //변경사항 없음 확인
-  5. vi s3.tf //import 전 기본 정보 파일 생성
-  ```t
-  resource "aws_s3_bucket" "study-terraform-s3" {
-    bucket = "study-terraform-s3-bucket"
-  }
+
+  ```bash
+    rm s3.tf # s3 코드 파일 삭제
+    terraform plan # apply시 s3 삭제 예정 확인
+    rm terraform.tfstate # 테라폼 스테이트 파일 삭제
+    terraform plan # 변경사항 없음 확인
+
+    vi s3.tf # import 전 기본 정보 파일 생성. 파일내용은 아래와 같음
+    resource "aws_s3_bucket" "study-terraform-s3" {
+      bucket = "study-terraform-s3-bucket"
+    }
+
+    terraform import aws_s3_bucket.study-terraform-s3 study-terraform-s3-bucket # aws에 기존 생성되어있던 s3 정보 import
+    terraform plan # 변경사항 확인.
+    terraform apply # 변경사항이 있을경우 코드와 인프라를 일치시기 위해 apply
+    terraform state list # 테라폼 리스트 확인
   ```
-  6. terraform import aws_s3_bucket.study-terraform-s3 study-terraform-s3-bucket //import
-  7. terraform plan //변경사항 확인.
-  8. terraform apply //변경사항이 있을경우 코드와 인프라를 일치시기 위해 apply
-  9. terraform state list //테라폼 리스트 확인
