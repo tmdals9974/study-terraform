@@ -92,3 +92,11 @@
     5. rm -rf aws, rm awscliv2.zip으로 설치파일 제거
 - Terraform 설치
   - https://developer.hashicorp.com/terraform/downloads
+
+## 5-2강 - AWS Configure 설정
+
+- AWS는 CLI/SDK/CDK 등을 이용하여 API를 제공한다. 테라폼은 SDK를 이용하여 테라폼 내부에서 요청하는 형식이다. API 요청을 위한 `AWS_ACCESS_KEY_ID`와 `AWS_SECRET_ACCESS_KEY`가 필요하다.
+  - `AWS 로그인` -> `우측 상단 프로필 클릭` -> `보안 자격 증명` -> `액세스키`에서 관리가 가능하다. (**이는 루트 액세스키 관리방법이며, IAM을 생성하여 액세스키를 발급하는게 정석임** )
+  - `aws configure` 명령어를 통해 키를 설정할 수 있다. **default output format은 json을 추천**한다.
+  - `cat ~/.aws/credentials`를 통해 설정값 확인 가능
+  - `aws sts get-caller-identity`를 통해 프로필 확인 가능
