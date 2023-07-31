@@ -64,7 +64,7 @@
   - sudo는 기본으로 세팅되어 있음.
   - 기본 계정의 password 설정: `sudo passwd ec2-user`
   - 기본 쉘 세팅
-    - 기본 쉘의 형태나 여러가지 기능들을 변경해주어 `편의성`을 높여줌 
+    - 기본 쉘의 형태나 여러가지 기능들을 변경해주어 `편의성`을 높여줌
       - ex 1) 파일명의 중간부분만 입력하고 탭을 눌러도 자동완성됨. app-test 라는 파일이 있을때, test 를 입력하고 탭키를 눌러도 자동완성이 된다는 뜻!
       - ex 2) 위아래 방향키로 이전에 입력했던 명령어 히스토리를 탐색하는 기능이 업그레이드됨. vi 까지 입력후 위아래로 움직이면 vi 를 기준으로 히스토리 탐색해줌.
     - 테마를 통해 `가독성`을 높여줌
@@ -84,7 +84,7 @@
 
 - AWS CLI v2 설치
   - aws linux는 AWS CLI 기본 내장
-  - 설치(업데이트) 명령어 : 
+  - 설치(업데이트) 명령어 :
     1. `curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"`
     2. `unzip awscliv2.zip`
     3. `sudo ./aws/install`
@@ -100,3 +100,47 @@
   - `aws configure` 명령어를 통해 키를 설정할 수 있다. **default output format은 json을 추천**한다.
   - `cat ~/.aws/credentials`를 통해 설정값 확인 가능
   - `aws sts get-caller-identity`를 통해 프로필 확인 가능
+
+## 6강 - 테라폼 작동원리와 CLI 실습
+
+- [`테라폼 작동원리`](https://terraform101.inflearn.devopsart.dev/preparation/terraform-basic/)
+  - 테라폼에 존재하는 3가지 형상
+    1. Local 코드 : 현재 개발자가 작성/수정하고 있는 코드
+    2. AWS 실제 인프라 : 실제로 AWS에 배포되어 있는 인프라
+    3. Backend에 저장된 상태 : 가장 최근에 배포한 테라폼 코드 형상
+  - **가장 중요한 것은 AWS 실제 인프라와 Backend에 저장된 상태가 100% 일치하도록 만드는 것**
+    - 불일치가 발생하는 경우
+      - ex 1) 코드를 통해 인프라 생성하여 backend에 저장했는데, 인프라를 콘솔을 통하여 변경하는 경우
+      - ex 2) 작업자간 backend 싱크가 맞지 않은 경우
+- `CLI 실습 - terraform init, plan, apply`
+  1. vi `provider.tf`
+  ```t
+  provider "aws" {
+    region = "ap-southeast-2"
+  }
+  ```
+  2. terraform init //생성된 terraform 결과물 확인
+  3. vi s3.tf
+  ```t
+  resource "aws_s3_bucket" "study-terraform-s3" {
+    bucket = "study-terraform-s3-bucket"
+  }
+  ```
+  4. terraform plan //예상 실행 결과물 확인
+  5. terraform apply
+  6. aws s3 ls //생성된 s3 버킷 확인
+- `CLI 실습 - import`
+  1. rm s3.tf //s3 코드 파일 삭제
+  2. terraform plan //apply시 s3 삭제 예정 확인
+  3. rm terraform.tfstate //테라폼 스테이트 파일 삭제
+  4. terraform plan //변경사항 없음 확인
+  5. vi s3.tf //import 전 기본 정보 파일 생성
+  ```t
+  resource "aws_s3_bucket" "study-terraform-s3" {
+    bucket = "study-terraform-s3-bucket"
+  }
+  ```
+  6. terraform import aws_s3_bucket.study-terraform-s3 study-terraform-s3-bucket //import
+  7. terraform plan //변경사항 확인.
+  8. terraform apply //변경사항이 있을경우 코드와 인프라를 일치시기 위해 apply
+  9. terraform state list //테라폼 리스트 확인
