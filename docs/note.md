@@ -151,6 +151,7 @@
   ```
 
 ## 7강 - VPC 소개
+
 - Amazon VPC는 Amazon에서 제공하는 Private한 네크워크 망입니다. 다음은 VPC의 핵심 구성요소입니다.
   - `Virtual Private Cloud(VPC)` — 사용자의 AWS 계정 전용 가상 네트워크입니다.
   - `서브넷` — VPC의 IP 주소 범위입니다.
@@ -161,3 +162,39 @@
   - `VPC 엔드포인트` — 인터넷 게이트웨이, NAT 디바이스, VPN 연결 또는 AWS Direct Connect 연결을 필요로 하지 않고 PrivateLink 구동 지원 AWS 서비스 및 VPC 엔드포인트 서비스에 VPC를 비공개로 연결할 수 있습니다. VPC의 인스턴스는 서비스의 리소스와 통신하는 데 퍼블릭 IP 주소를 필요로 하지 않습니다. VPC와 기타 서비스 간의 트래픽은 Amazon 네트워크를 벗어나지 않습니다.
 - `VPC 생성`
   - AWS - VPC 대시보드 - VPC 생성으로 들어가야 생성이 더 간편함. (VPC 외 서브넷 등 같이 생성)
+
+## 8강 - VPC와 Subnet 생성하기
+
+- 테라폼을 이용해 VPC와 Subnet 생성
+
+  - 1. provider.tf 생성 후 terraform init
+  - 2. 생성할 vpc 정보만 입력 후 terraform plan -> terraform apply
+  - 3. vpc와 연결할 subnet 정보 입력 후 terraform plan -> terraform apply (이 과정에서 서브넷과 연결될 라우트테이블은 빈 상태로 기본으로 만들어진다.)
+
+  ```shell
+  resource "aws_vpc" "main" {
+    cidr_block = "10.0.0.0/16"
+    tags = {
+      Name = "study-terraform"
+    }
+  }
+
+  resource "aws_subnet" "public_subnet" {
+    vpc_id = aws_vpc.main.id
+    cidr_block = "10.0.0.0/24"
+    availability_zone = "ap-southeast-2a"
+    tags = {
+      Name = "study-terraform-public-subnet"
+    }
+  }
+
+  resource "aws_subnet" "private_subnet" {
+    vpc_id = aws_vpc.main.id
+    cidr_block = "10.0.10.0/24"
+    tags = {
+      Name = "study-terraform-private-subnet"
+    }
+  }
+  ```
+
+  - 생성된 서브넷 > 연결된 라우팅 테이블 > 라우팅 대상 > igw일 경우 퍼블릭/nat일 경우 프라이빗
